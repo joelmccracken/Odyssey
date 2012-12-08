@@ -1,0 +1,37 @@
+# represents a block of code
+# the basic fundamental sequence of statements
+# either as an implicit or explicit block
+# a block may, or may not, have named parameters
+# the top-level of each parsed program is a Block
+# actual traditional "blocks" are also blocks
+# the bodies of begin/rescue/ends are blocks
+# the bodies of classes are blocks
+# the bodies of methods are blocks
+# I'm thinking there should be two types of blocks --
+# implicit blocks, which just "are"
+
+class Block < Struct.new(:arguments, :body)
+  def ==(other)
+    other &&
+      arguments == other.arguments &&
+      body == other.body
+    end
+
+  def statements
+    body || []
+  end
+
+  def to_ruby
+    ruby_str = [arguments_ruby, body_ruby].reject(&:empty?).join(" ")
+    "{#{ruby_str}}"
+  end
+
+  def arguments_ruby
+    args_together = arguments && arguments.map(&:to_s).join(",")
+    if args_together then "|#{args_together}|" else "" end
+  end
+
+  def body_ruby
+    statements.map(&:to_ruby).join "\n"
+  end
+end
