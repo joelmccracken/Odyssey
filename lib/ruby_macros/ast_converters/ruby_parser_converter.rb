@@ -4,15 +4,6 @@ class RubyParserConverter
 end
 
 
-def mparse code
-  RubyParserASTDescriminator.new(code).translate
-end
-
-def domacros code
-  RubyParserASTDescriminator.new(code).translate
-end
-
-
 class RubyParserASTDescriminator
   def initialize(code)
     @code = code
@@ -23,7 +14,7 @@ class RubyParserASTDescriminator
 
   def translate
     # the root of every translation is a set of statements
-    @statements = trans(parse) #Statements.new(trans(parse))
+    @statements = trans(parse)
     self
   end
 
@@ -38,18 +29,17 @@ class RubyParserASTDescriminator
     @statements
   end
 
+  def statements
+    @statements
+  end
+
   private
   def trans ast
     return nil if ast.nil?
 
     case ast.sexp_type
     when :lit then
-      literal = ast[1]
-      if literal.is_a?(Numeric)
-        Num.new(literal)
-      elsif literal.is_a?(Symbol)
-        Sym.new(literal)
-      end
+      ast[1]
     when :iter then
       message = trans(ast[1])
 
@@ -62,16 +52,27 @@ class RubyParserASTDescriminator
       message.block = Block.new trans(ast[2]),  new_lines
       message
     when :call then
-      Message.new(trans(ast[1]), Sym.new(ast[2]), trans(ast[3]))
+      if ast[2] == :def_macro then
+        MacroDef.new(trans(ast[3]), trans(ast[3]))
+      else
+        Message.new(trans(ast[1]), ast[2], trans(ast[3]))
+      end
     when :str then
-      Str.new(ast[1])
+      ast[1]
     when :args then
       if ast[1].nil? then
         nil
       else
         [ast[1]]
       end
+    when :block then
+      ImplicitBlock.new(ast[1..-1].map do |it|
+                          trans(it)
+                        end)
+    when :lvar then
+      Var.new(ast[1])
     else raise "Untranslated Error: #{ast.inspect}"
     end
   end
 end
+

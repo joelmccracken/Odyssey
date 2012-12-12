@@ -19,6 +19,11 @@ way, there really is nothing that Lisp has that Ruby doesn't.
 The side goal is to discover how Ruby might do macros better than
 Lisp, with its increased expressiveness. 
 
+The thing about lisp macros are that they aren't /really/ homoiconic,
+or the idea of describing them as homoiconic is
+disingenuous. Basically, the standard way for a macro to work 
+
+
 Overview
 --------
 Project consists of a few components

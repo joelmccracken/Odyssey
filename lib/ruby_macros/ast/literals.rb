@@ -25,3 +25,5 @@ end
 class Str < Lit; end
 
 class Nil < Lit; end
+
+class Var < Lit; end

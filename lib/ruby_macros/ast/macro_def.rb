@@ -1,13 +1,13 @@
 class MacroDef
-  attr_accessor :name, :body
+  attr_accessor :name, :block
 
-  def initialize(name, body)
+  def initialize(name, block)
     @name = name
-    @body = body
+    @block = block
   end
 
   def ==(other)
     name == other.name &&
-      body == other.body
+      block == other.block
   end
 end

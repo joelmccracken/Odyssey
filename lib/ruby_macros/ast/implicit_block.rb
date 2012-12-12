@@ -10,7 +10,7 @@
 # I'm thinking there should be two types of blocks --
 # implicit blocks, which just "are"
 
-class ImplicitBlock < Struct.new(:arguments, :body)
+class ImplicitBlock < Struct.new(:body)
   def ==(other)
     other &&
       body == other.body

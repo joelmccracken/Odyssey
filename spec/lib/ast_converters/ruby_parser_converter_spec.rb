@@ -1,26 +1,27 @@
+require_relative "../../env"
+
 describe "documenting the parse call" do
   it  do
-    mparse("1").ast.must_equal Num.new(1)
+    RubyMacros.mparse("1").ast.must_equal 1
 
-    mparse("1+1").ast.must_equal Message.new(Num.new(1), Sym.new(:+), Num.new(1))
+    RubyMacros.mparse("1+1").ast.must_equal Message.new(1, :+, 1)
 
-    mparse("1+2+3").ast.must_equal Message.new(
-                                       Message.new(Num.new(1), Sym.new(:+), Num.new(2)),
-                                       Sym.new(:+),
-                                       Num.new(3))
+    RubyMacros.mparse("1+2+3").ast.must_equal Message.new(
+                                                      Message.new(1, :+, 2),
+                                                      :+,
+                                                      3)
 
-    mparse("puts 'hi'").ast.must_equal Message.new(nil, Sym.new(:puts), Str.new("hi"))
+    RubyMacros.mparse("puts 'hi'").ast.must_equal Message.new(nil, :puts, "hi")
 
-    mparse(<<-EOF
-  defmacro :lol do |m|
-    puts 'hi'
-  end
-EOF
-    ).ast.must_equal  Message.new(nil, Sym.new(:defmacro), Sym.new(:lol),
-                              Block.new([:m],
-                                    [ Message.new(nil, Sym.new(:puts), Str.new("hi")) ]))
+    RubyMacros.mparse(<<-EOF
+      defmacro :lol do |m|
+         puts 'hi'
+      end
+      EOF
+               ).ast.must_equal  Message.new(nil, :defmacro, :lol,
+                                         Block.new([:m],
+                                               [ Message.new(nil, :puts, "hi") ]))
 
-
-    mparse("puts 'hi'").ast.to_ruby.must_equal 'puts "hi"'
+    # RubyMacros.mparse("puts 'hi'").ast.to_ruby.must_equal 'puts "hi"'
   end
 end
