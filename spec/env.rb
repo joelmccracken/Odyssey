@@ -1,7 +1,11 @@
+$:.unshift(File.expand_path('lib/'))
+
 gem "minitest"
 
 require "minitest/spec"
 
-require "minitest/autorun"
 
-require "ruby_macros"
+
+require "odyssey"
+
+require "minitest/autorun"

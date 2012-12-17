@@ -53,31 +53,35 @@ First, a file is parsed. From it, relevant macro definitions are
 extracted.
 
 Once we have macro definitions, they are applied to the remaining
-syntax. Finally, 
-
-
-
-
-
+syntax. Finally, the resulting AST is converted to ruby code, and
+evaluated. 
 
 
 DSL Sketching
 -------------
 
-    defmacro :my_macro do 
+    defmacro :my_macro do
        rewrite %q{"Hellooooo!"}
     end
     
-    my_macro 
+    my_macro
 
 when run, would be rewritten to: 
 
     "Hellooooo!"
 
 
+Eventually
+----------
+
+Ideally we *could* support macros at run time, but that requires
+runtime access to the AST. This is certainly possible (IE with
+ParseTree), but not necessarily easy, so for the time being, I am not
+worried about doing this now.
 
 Tasks
 -----
+
 * come up with a better name
 * write better "overview" of project goals
 * just finish this

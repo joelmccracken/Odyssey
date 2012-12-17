@@ -1,13 +1,10 @@
 require "ruby_parser"
 
 class RubyParserConverter
-end
-
-
-class RubyParserASTDescriminator
   def initialize(code)
     @code = code
   end
+
   def parse
     ast = Ruby19Parser.new.parse @code
   end

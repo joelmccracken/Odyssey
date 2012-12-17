@@ -21,28 +21,31 @@ end
 describe "proof of concept" do
   it do
     complete_macro_example = <<-EOF
-      def_macro :my_macro do |m|
-        :hi_mom
-      end
-      my_macro
-      EOF
-
-      RubyMacros.domacros(complete_macro_example).must_equal [:hi_mom]
+    def_macro :my_macro do |m|
+      :hi_mom
     end
-  end
+    my_macro
+    EOF
 
-  describe "building andand" do
-    it do
-      andand_code = <<-EOF
-      def_macro :my_macro do |m|
-        m.replace(first_argument: m.args[0], second_argument: m.args[1]) do
-          (temp = first_argument and temp.second_argument)
-        end
+    Odyssey.domacros(complete_macro_example).must_equal [:hi_mom]
+  end
+end
+
+describe "building andand" do
+  it do
+    andand_code = <<-EOF
+    def_macro :my_macro do |m|
+      m.replace(first_argument: m.args[0], second_argument: m.args[1]) do
+        (temp = first_argument and temp.second_argument)
       end
-      1.andand(2)
-      EOF
-
-      code = RubyMacros.domacros(andand_code)
-      puts code.inspect
     end
+    1.andand(2)
+    EOF
+
+    next #pending
+    # need to implement / test the converter next....
+
+    code = Odyssey.domacros(andand_code)
+    puts code.inspect
   end
+end
