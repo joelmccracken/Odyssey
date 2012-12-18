@@ -12,14 +12,14 @@ require "refine"
 
 module Odyssey
   def self.domacros code
-    parsed = RubyParserConverter.new(code).translate
+    parsed = Parsers::RubyParserConverter.new(code).translate
     mf = MacroFinder.new(MacroDef)
     ma = MacroApplyer.new(mf, Message)
     ma.apply(parsed)
   end
 
   def self.mparse code
-    RubyParserConverter.new(code).translate
+    Parsers::RubyParserConverter.new(code).translate
   end
 
   # TODO support all of the possible options here
