@@ -10,9 +10,5 @@ describe ImplicitBlock do
   it "can accept a sequence of statements" do
     blk = ImplicitBlock.new []
   end
-
-  it "can convert itself to ruby" do
-    ImplicitBlock.new.to_ruby.must_equal ""
-  end
 end
 

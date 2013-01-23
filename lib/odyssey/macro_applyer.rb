@@ -17,12 +17,12 @@ class MacroApplyer
 
   private
   def do_apply_macro(macro, code)
-    code.flat_map do |statement|
-      if statement.is_a?(@message_class) and statement.name == macro.name then
-        macro.block.body
-      else
-        statement
-      end
-    end
+    ImplicitBlock.new(code.flat_map do |statement|
+                        if statement.is_a?(@message_class) and statement.name == macro.name then
+                          macro.block.body
+                        else
+                          statement
+                        end
+                      end)
   end
 end

@@ -13,13 +13,7 @@ class Message < Struct.new(:target, :name, :arguments, :block)
       block == other.block
   end
 
-  def to_ruby
-    ret = [name.to_ruby, arguments.to_ruby]
-    ret.unshift(target.to_ruby) unless target.nil?
-    ret.join " "
-  end
-
   def inspect
-    "#{target.inspect}.#{name.inspect}(#{arguments.inspect})(block #{block.inspect})"
+    "Message(target: #{target.inspect}, msg: #{name.inspect}, args: #{arguments.inspect})"
   end
 end

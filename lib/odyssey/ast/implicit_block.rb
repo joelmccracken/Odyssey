@@ -19,9 +19,5 @@ class ImplicitBlock < Struct.new(:body)
   def statements
     body || []
   end
-
-  def to_ruby
-    statements.map(&:to_ruby).join "\n"
-  end
 end
 

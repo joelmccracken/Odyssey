@@ -21,17 +21,5 @@ class Block < Struct.new(:arguments, :body)
     body || []
   end
 
-  def to_ruby
-    ruby_str = [arguments_ruby, body_ruby].reject(&:empty?).join(" ")
-    "{#{ruby_str}}"
-  end
 
-  def arguments_ruby
-    args_together = arguments && arguments.map(&:to_s).join(",")
-    if args_together then "|#{args_together}|" else "" end
-  end
-
-  def body_ruby
-    statements.map(&:to_ruby).join "\n"
-  end
 end

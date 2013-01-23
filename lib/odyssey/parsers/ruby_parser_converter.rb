@@ -3,13 +3,14 @@ require "ruby_parser"
 module Odyssey
   module Parsers
     class RubyParserConverter
-      def initialize(code)
-        @code = code
+      def initialize(ruby_parser_gem_parser)
+        @ruby_parser_gem_parser = ruby_parser_gem_parser
       end
 
-      def translate
+      def translate(code)
+        @code = code
         # the root of every translation is a set of statements
-        @statements = trans(Ruby19Parser.new.parse @code)
+        @statements = trans(@ruby_parser_gem_parser.parse @code)
         self
       end
 
@@ -36,10 +37,13 @@ module Odyssey
           message.block = Block.new trans(ast[2]),  new_lines
           message
         when :call then
-          if ast[2] == :def_macro then
+          if ast[2] == :defmacro then
             MacroDef.new(trans(ast[3]), trans(ast[3]))
           else
-            Message.new(trans(ast[1]), ast[2], trans(ast[3]))
+            args = ast[3..-1].map do |arg|
+              trans(arg)
+            end
+            Message.new(trans(ast[1]), ast[2], args)
           end
         when :str then
           ast[1]
