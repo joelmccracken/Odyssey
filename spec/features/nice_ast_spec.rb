@@ -12,10 +12,10 @@ describe "Object-oriented Ruby syntax representations" do
     to_ruby.call(Block.new([:x], [])).
       must_equal "{|x|}"
 
-    to_ruby.call(Message.new(nil, Sym.new(:puts), Str.new("hi"))).
-      must_equal "puts \"hi\""
+    to_ruby.call(Message.new(nil, :puts, ["hi"])).
+      must_equal "puts(\"hi\")"
 
-    to_ruby.call(Message.new(Num.new(1), Sym.new(:+), Num.new(1))).
+    to_ruby.call(Message.new(1, :+, [1])).
       must_equal "1 + 1"
   end
 

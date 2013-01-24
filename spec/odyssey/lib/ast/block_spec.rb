@@ -18,11 +18,5 @@ describe Block do
   end
 
 
-  it "can convert itself to ruby" do
-    Block.new.to_ruby.must_equal "{}"
-    Block.new([:x, :y]).to_ruby.must_equal "{|x,y|}"
 
-    Block.new([:x, :y], []).to_ruby.
-      must_equal "{|x,y|}"
-  end
 end

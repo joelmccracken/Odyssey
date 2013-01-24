@@ -20,6 +20,4 @@ class Block < Struct.new(:arguments, :body)
   def statements
     body || []
   end
-
-
 end

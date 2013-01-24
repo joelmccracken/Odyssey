@@ -21,7 +21,7 @@ describe MacroApplyer do
   let(:macro_applyer) { MacroApplyer.new(macro_finder, message) }
   describe "a simple macro example" do
     it do
-      macro_applyer.apply(nil).must_equal [:funky]
+      macro_applyer.apply(nil).must_equal ImplicitBlock.new([:funky])
     end
   end
 end

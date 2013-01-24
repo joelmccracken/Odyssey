@@ -26,23 +26,29 @@ class ToRuby
         end
       end
       refine Message do
+        def is_special? sym
+          [:+].member? sym
+        end
+
         def to_ruby converter=nil
           ruby_version = []
-
-          if target
-            ruby_version << target.to_s
-            ruby_version << "."
+          if is_special? name
+            "#{target.to_s} #{name.to_s} #{arguments.first.to_s}"
+          else
+            if target
+              ruby_version << target.to_s
+              ruby_version << "."
+            end
+            ruby_version << name.to_s
+            ruby_version << "("
+            if arguments
+              ruby_version << (arguments.map do |arg|
+                  converter.call(arg)
+                end.join(', '))
+            end
+            ruby_version << ")"
+            ruby_version.join
           end
-          ruby_version << name.to_s
-
-          ruby_version << "("
-          if arguments
-            ruby_version << (arguments.map do |arg|
-                converter.call(arg)
-              end.join(', '))
-          end
-          ruby_version << ")"
-          ruby_version.join
         end
 
       end
