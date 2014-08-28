@@ -1,4 +1,4 @@
-source :rubygems
+source "https://rubygems.org"
 
 gem "ruby_parser"
 gem "melbourne"

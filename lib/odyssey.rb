@@ -8,6 +8,8 @@ require "odyssey/ast/message"
 require "odyssey/ast/implicit_block"
 require "odyssey/ast/literals"
 require "odyssey/ast/macro_def"
+require "odyssey/ast/hash_exp"
+require "odyssey/ast/and_exp"
 require "odyssey/parsers/ruby_parser_converter"
 require "refine"
 
@@ -23,10 +25,6 @@ module Odyssey
    ToRuby.new.call ast
   end
 
-  def self.mparse code
-    Parsers::RubyParserConverter.new(code).translate
-  end
-
   # TODO support all of the possible options here
   def self.evaluator(*args, &block)
     MacroEvaluator.new(*args, &block)
@@ -37,7 +35,7 @@ module Odyssey
     end
 
     def evaluate code
-      parsed = Parsers::RubyParserConverter.new(code).translate
+      parsed = Parsers::RubyParserConverter.new(Ruby19Parser.new).translate(code)
       mf = MacroFinder.new(MacroDef)
       ma = MacroApplyer.new(mf, Message)
       ma.apply(parsed)

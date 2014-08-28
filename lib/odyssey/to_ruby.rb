@@ -12,7 +12,6 @@ class ToRuby
 
   private
   def ref
-
     @ref ||=
       Refinery.new do
       refine String do
@@ -73,6 +72,11 @@ class ToRuby
 
         def body_ruby
           statements.map(&:to_ruby).join "\n"
+        end
+      end
+      refine Symbol do
+        def to_ruby(converter=nil)
+          ":\"#{self}\""
         end
       end
     end

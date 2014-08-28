@@ -26,7 +26,6 @@ end
 
 describe "proof of concept" do
   it do
-    skip "NIY"
     complete_macro_example = <<-EOF
     defmacro :my_macro do |m|
       :hi_mom
@@ -34,7 +33,7 @@ describe "proof of concept" do
     my_macro
     EOF
 
-    Odyssey.domacros(complete_macro_example).must_equal [:hi_mom]
+    Odyssey.domacros(complete_macro_example).must_equal ":\"hi_mom\""
   end
 end
 
@@ -49,10 +48,7 @@ describe "building andand" do
     1.andand(2)
     EOF
 
-    skip "NIY"
-
     # need to implement / test the converter next....
-
     code = Odyssey.domacros(andand_code)
     puts code.inspect
   end

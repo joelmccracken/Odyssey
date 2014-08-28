@@ -1,5 +1,4 @@
 require "ruby_parser"
-
 module Odyssey
   module Parsers
     class RubyParserConverter
@@ -59,6 +58,15 @@ module Odyssey
                             end)
         when :lvar then
           Var.new(ast[1])
+
+        when :hash then
+          HashExp.new(trans(ast[1]), trans(ast[2]))
+
+        when :and then
+          AndExp.new(trans(ast[1]), trans(ast[2]))
+        when :lasgn then
+          nil
+#          AssignmentExp
         else raise "Untranslated Error: #{ast.inspect}"
         end
       end

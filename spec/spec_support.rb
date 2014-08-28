@@ -1,4 +1,4 @@
-$:.unshift(File.expand_path('lib/'))
+$:.unshift(File.join(File.dirname(__FILE__), '../lib/'))
 
 gem "minitest"
 
